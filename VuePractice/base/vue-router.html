@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>vue-router</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
+    <link rel="icon" href="favicon.ico">
+</head>
+<body>
+<div id="app">
+    <h1>Hello App!</h1>
+    <p>
+        <router-link to="/user/kazusa">kazusa</router-link>
+        <router-link to="/user/kazusa/foo">go to foo</router-link>
+        <router-link to="/user/kazusa/bar">go to bar</router-link>
+    </p>
+    <router-view></router-view>
+</div>
+<script>
+    Vue.use(VueRouter)
+    const User = {   template: `
+    <div >
+      <h2>User {{ $route.params.id }}</h2>
+      <router-view></router-view>
+    </div>
+  `
+    }
+    const Foo = { template: `<div>foo </div>` }
+    const Bar = { template: `<div>bar</div>` }
+    const routes = [
+        { path: '/user/:id', component: User,
+        children:[
+            { path: '', component: Foo},
+            { path: 'bar', component: Bar},
+            { path: 'foo', component: Foo }
+            ]}
+    ]
+
+    const router = new VueRouter({
+        routes: routes
+    })
+
+    const app = new Vue({
+        router: router
+    }).$mount('#app')
+</script>
+</body>
+</html>
